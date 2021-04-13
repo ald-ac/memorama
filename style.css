@@ -3,6 +3,16 @@
     padding: 0;
 }
 
+.titular {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.titular > img{
+    width: 90px;
+}
+
 h1 {
     font-size: 34pt;
 }
@@ -17,5 +27,5 @@ h1 {
 }
 
 .contenedor > .fila > img {
-    width: 200px;
+    width: 110px;
 }
