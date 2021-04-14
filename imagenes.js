@@ -4,5 +4,7 @@ let imagenes = [
     './assets/img3.png',
     './assets/img4.png',
     './assets/img5.png',
-    './assets/img6.png'
+    './assets/img6.png',
+    './assets/img7.png',
+    './assets/img8.png'
 ];

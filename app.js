@@ -30,9 +30,21 @@ function cargarArregloImg() {
         objImagenes.push(objImagen);
     });
 
-    arrayTarjetas.forEach(tarj => {
-        tarj.src = objImagenes[0].dir;
-    })
+    imagenes.forEach(imagen => {
+        
+        let objImagen = {
+            dir: '',
+            estado: 0,
+            acierto: 0
+        }
+
+        objImagen.dir = imagen;
+        objImagenes.push(objImagen);
+    });
+
+    for (let i = 0; i < arrayTarjetas.length; i++) {
+        arrayTarjetas[i].src = objImagenes[i].dir;
+    }
 
 }
 
