@@ -4,6 +4,7 @@ const arrayTarjetas = [...tarjetas]; //Transformar esos elementos a un array
 const dirDorsoTarjeta = './assets/card.png';
 
 let objImagenes = []; //Almacen de objetos img
+let tarjetaVolteada = null;
 
 //Listeners
 listeners();
@@ -44,7 +45,7 @@ function cargarArregloImg() {
     });
     
 
-    barajarImagenes();
+    //barajarImagenes();
 
     //for (let i = 0; i < arrayTarjetas.length; i++) { //En cada elemento html IMG asignar la direccion de una
     //    arrayTarjetas[i].src = objImagenes[i].dir;
@@ -71,4 +72,26 @@ function voltearTarjeta(e) {
     let clickeable = objImagenes[idTarjeta].estado ? 'none' : 'auto'; 
     e.target.src = imgAMostrar; 
     e.target.style.pointerEvents = clickeable;
+
+    if(tarjetaVolteada === null) {
+        tarjetaVolteada = idTarjeta;
+        console.log(tarjetaVolteada);
+    } else {
+        console.log(objImagenes[tarjetaVolteada].dir);
+        console.log(e.target.src);
+        if(e.target.src === arrayTarjetas[tarjetaVolteada].src) {
+            console.log('Acertaste');
+        } else {
+            arrayTarjetas[tarjetaVolteada].src = dirDorsoTarjeta;
+            arrayTarjetas[tarjetaVolteada].style.pointerEvents = 'auto';
+            objImagenes[tarjetaVolteada].estado = false;
+            
+
+            e.target.src = dirDorsoTarjeta;
+            e.target.style.pointerEvents = 'auto';
+            objImagenes[idTarjeta].estado = false;
+            
+        }
+        tarjetaVolteada = null;
+    }
 }
