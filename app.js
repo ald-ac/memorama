@@ -1,8 +1,9 @@
 //Variables
-const tarjetas = document.getElementsByClassName('rounded');
-const arrayTarjetas = [...tarjetas];
+const tarjetas = document.getElementsByClassName('rounded'); //Obteniendo elementos html IMG
+const arrayTarjetas = [...tarjetas]; //Transformar esos elementos a un array
+const dirDorsoTarjeta = './assets/card.png';
 
-let objImagenes = [];
+let objImagenes = []; //Almacen de objetos img
 
 //Listeners
 listeners();
@@ -18,36 +19,53 @@ function listeners() {
 
 //Funciones
 function cargarArregloImg() {
-    imagenes.forEach(imagen => {
+    imagenes.forEach(imagen => { //Arreglo de imagenes a arreglo de objetos imagenes
         
-        let objImagen = {
+        let objImagen = { //Objeto 
             dir: '',
-            estado: 0,
+            estado: false,
             acierto: 0
         }
 
-        objImagen.dir = imagen;
-        objImagenes.push(objImagen);
+        objImagen.dir = imagen; //Establecer direccion de la imagen
+        objImagenes.push(objImagen); //Almacenarlo doblemente para tener pares de imgs
     });
 
-    imagenes.forEach(imagen => {
+    imagenes.forEach(imagen => { //Arreglo de imagenes a arreglo de objetos imagenes
         
-        let objImagen = {
+        let objImagen = { //Objeto 
             dir: '',
-            estado: 0,
+            estado: false,
             acierto: 0
         }
 
-        objImagen.dir = imagen;
-        objImagenes.push(objImagen);
+        objImagen.dir = imagen; //Establecer direccion de la imagen
+        objImagenes.push(objImagen); //Almacenarlo doblemente para tener pares de imgs
     });
+    
 
-    for (let i = 0; i < arrayTarjetas.length; i++) {
-        arrayTarjetas[i].src = objImagenes[i].dir;
-    }
+    barajarImagenes();
 
+    //for (let i = 0; i < arrayTarjetas.length; i++) { //En cada elemento html IMG asignar la direccion de una
+    //    arrayTarjetas[i].src = objImagenes[i].dir;
+    //}
+
+    //for (let i = 0; i < arrayTarjetas.length; i++) { //En cada elemento html IMG asignar la direccion de una
+    //    console.log(objImagenes[i]);
+    //}
 }
 
-function voltearTarjeta() {
-    
+function barajarImagenes() {
+    objImagenes.sort(() => {
+        return Math.random() - 0.5;
+    });
+}
+
+function voltearTarjeta(e) {
+    const idTarjeta = e.target.id - 1; //Obtener id del html IMG
+
+    objImagenes[idTarjeta].estado = !objImagenes[idTarjeta].estado; //Invertir su estado (volteado)
+    //De acuerdo a su estado asignar una imagen
+    let imgAMostrar = objImagenes[idTarjeta].estado ? objImagenes[idTarjeta].dir : dirDorsoTarjeta; 
+    e.target.src = imgAMostrar; 
 }
