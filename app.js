@@ -67,5 +67,8 @@ function voltearTarjeta(e) {
     objImagenes[idTarjeta].estado = !objImagenes[idTarjeta].estado; //Invertir su estado (volteado)
     //De acuerdo a su estado asignar una imagen
     let imgAMostrar = objImagenes[idTarjeta].estado ? objImagenes[idTarjeta].dir : dirDorsoTarjeta; 
+    //Cuando la tarjeta este boca arriba que no sea clickeable
+    let clickeable = objImagenes[idTarjeta].estado ? 'none' : 'auto'; 
     e.target.src = imgAMostrar; 
+    e.target.style.pointerEvents = clickeable;
 }
