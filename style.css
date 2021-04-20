@@ -7,10 +7,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgb(2,0,36);;
+    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(197,7,47,1) 0%, rgba(228,70,105,1) 100%);
 }
 
 .titular > img{
-    width: 90px;
+    width: 60px;
+    margin-right: 20px;
 }
 
 h1 {
@@ -24,6 +27,7 @@ h1 {
 
 .fila {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .contenedor > .fila > img {
