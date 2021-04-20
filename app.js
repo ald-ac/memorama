@@ -6,6 +6,8 @@ const dirDorsoTarjeta = './assets/card.png';
 let objImagenes = []; //Almacen de objetos img
 let tarjetaVolteada = null;
 let tVolteadaTemp = null; //Auxiliar para voltear boca abajo tarjeta (util en setTimout)
+let aciertos = 0;
+let intentos = 0;
 
 //Listeners
 listeners();
@@ -26,7 +28,6 @@ function cargarArregloImg() {
         let objImagen = { //Objeto 
             dir: '',
             estado: false,
-            acierto: 0
         }
 
         objImagen.dir = imagen; //Establecer direccion de la imagen
@@ -78,38 +79,46 @@ function voltearTarjeta(e) {
         
     } else {
         tVolteadaTemp = tarjetaVolteada; //Almacenar tarjeta volteada primero porque sera nula 
-        
+        intentos++;
         //No dejar que se presionen mas tarjetas cuando ya hay dos levantadas
         inhabilitarTarjetas(); 
         if(e.target.src === arrayTarjetas[tarjetaVolteada].src) {
+            aciertos++;
             console.log('Acertaste');
             habilitarTarjetas();
         } else {
             console.log('Diferente');
             //Dejar ver un segundo ambas tarjetas diferentes levantadas
-            setTimeout(function() {
+            setTimeout(() => {
                 arrayTarjetas[tVolteadaTemp].src = dirDorsoTarjeta;
-                arrayTarjetas[tVolteadaTemp].style.pointerEvents = 'auto';
+                //arrayTarjetas[tVolteadaTemp].style.pointerEvents = 'auto';
                 objImagenes[tVolteadaTemp].estado = false;
 
                 e.target.src = dirDorsoTarjeta;
-                e.target.style.pointerEvents = 'auto';
+                //e.target.style.pointerEvents = 'auto';
                 objImagenes[idTarjeta].estado = false;
                 habilitarTarjetas();
             }, 1000);
         }
         tarjetaVolteada = null;
     }
+
+    setTimeout(() => {
+        if(aciertos === 8) {
+            inhabilitarTarjetas();
+            prompt('¡Felicidades has ganado despues de ' + intentos + ' intentos!');
+        }
+    });
 }
 
-//Evitar que sean clickeables toda tarjeta
+//Evitar que sean clickeables todas las tarjeta
 function inhabilitarTarjetas() {
     arrayTarjetas.forEach(tarjeta => {
         tarjeta.style.pointerEvents = 'none';
     });
 }
 
-//Hacer que sean clickeables toda tarjeta
+//Hacer que sean clickeables todas las tarjeta
 function habilitarTarjetas() {
     arrayTarjetas.forEach(tarjeta => {
         tarjeta.style.pointerEvents = 'auto';
