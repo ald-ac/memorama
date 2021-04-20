@@ -5,6 +5,7 @@ const dirDorsoTarjeta = './assets/card.png';
 
 let objImagenes = []; //Almacen de objetos img
 let tarjetaVolteada = null;
+let tVolteadaTemp = null; //Auxiliar para voltear boca abajo tarjeta (util en setTimout)
 
 //Listeners
 listeners();
@@ -43,9 +44,8 @@ function cargarArregloImg() {
         objImagen.dir = imagen; //Establecer direccion de la imagen
         objImagenes.push(objImagen); //Almacenarlo doblemente para tener pares de imgs
     });
-    
 
-    //barajarImagenes();
+    barajarImagenes();
 
     //for (let i = 0; i < arrayTarjetas.length; i++) { //En cada elemento html IMG asignar la direccion de una
     //    arrayTarjetas[i].src = objImagenes[i].dir;
@@ -75,23 +75,43 @@ function voltearTarjeta(e) {
 
     if(tarjetaVolteada === null) {
         tarjetaVolteada = idTarjeta;
-        console.log(tarjetaVolteada);
+        
     } else {
-        console.log(objImagenes[tarjetaVolteada].dir);
-        console.log(e.target.src);
+        tVolteadaTemp = tarjetaVolteada; //Almacenar tarjeta volteada primero porque sera nula 
+        
+        //No dejar que se presionen mas tarjetas cuando ya hay dos levantadas
+        inhabilitarTarjetas(); 
         if(e.target.src === arrayTarjetas[tarjetaVolteada].src) {
             console.log('Acertaste');
+            habilitarTarjetas();
         } else {
-            arrayTarjetas[tarjetaVolteada].src = dirDorsoTarjeta;
-            arrayTarjetas[tarjetaVolteada].style.pointerEvents = 'auto';
-            objImagenes[tarjetaVolteada].estado = false;
-            
+            console.log('Diferente');
+            //Dejar ver un segundo ambas tarjetas diferentes levantadas
+            setTimeout(function() {
+                arrayTarjetas[tVolteadaTemp].src = dirDorsoTarjeta;
+                arrayTarjetas[tVolteadaTemp].style.pointerEvents = 'auto';
+                objImagenes[tVolteadaTemp].estado = false;
 
-            e.target.src = dirDorsoTarjeta;
-            e.target.style.pointerEvents = 'auto';
-            objImagenes[idTarjeta].estado = false;
-            
+                e.target.src = dirDorsoTarjeta;
+                e.target.style.pointerEvents = 'auto';
+                objImagenes[idTarjeta].estado = false;
+                habilitarTarjetas();
+            }, 1000);
         }
         tarjetaVolteada = null;
     }
+}
+
+//Evitar que sean clickeables toda tarjeta
+function inhabilitarTarjetas() {
+    arrayTarjetas.forEach(tarjeta => {
+        tarjeta.style.pointerEvents = 'none';
+    });
+}
+
+//Hacer que sean clickeables toda tarjeta
+function habilitarTarjetas() {
+    arrayTarjetas.forEach(tarjeta => {
+        tarjeta.style.pointerEvents = 'auto';
+    });
 }
