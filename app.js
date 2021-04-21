@@ -85,17 +85,21 @@ function voltearTarjeta(e) {
         if(e.target.src === arrayTarjetas[tarjetaVolteada].src) {
             aciertos++;
             console.log('Acertaste');
+
+            //Remover las tarjetas correctas del arreglo
+            //Evitando habilitarlas(clickeables)
+            arrayTarjetas.splice(idTarjeta);
+            arrayTarjetas.splice(tarjetaVolteada);
+
             habilitarTarjetas();
         } else {
             console.log('Diferente');
             //Dejar ver un segundo ambas tarjetas diferentes levantadas
             setTimeout(() => {
                 arrayTarjetas[tVolteadaTemp].src = dirDorsoTarjeta;
-                //arrayTarjetas[tVolteadaTemp].style.pointerEvents = 'auto';
                 objImagenes[tVolteadaTemp].estado = false;
 
                 e.target.src = dirDorsoTarjeta;
-                //e.target.style.pointerEvents = 'auto';
                 objImagenes[idTarjeta].estado = false;
                 habilitarTarjetas();
             }, 1000);
@@ -106,7 +110,7 @@ function voltearTarjeta(e) {
     setTimeout(() => {
         if(aciertos === 8) {
             inhabilitarTarjetas();
-            prompt('¡Felicidades has ganado despues de ' + intentos + ' intentos!');
+            confirm('¡Felicidades has ganado despues de ' + intentos + ' intentos!');
         }
     });
 }
