@@ -34,3 +34,9 @@ h1 {
 .contenedor > .fila > img {
     width: 130px;
 }
+
+@media only screen and (max-width: 768px) {
+    .contenedor > .fila > img {
+        width: 90px;
+    }
+}
