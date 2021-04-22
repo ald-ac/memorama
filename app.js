@@ -10,6 +10,8 @@ let tVolteadaTemp = null; //Auxiliar para voltear boca abajo tarjeta (util en se
 let aciertos = 0;
 let intentos = 0;
 
+let dispTarjetas = arrayTarjetas;
+
 //Listeners
 listeners();
 
@@ -33,11 +35,11 @@ function cargarArregloImg() {
             dir: '',
             estado: false,
         }
-        console.log(i);
+        
         objTarjeta.dir = imagenes[i]; //Establecer direccion de la imagen
         objTarjetas.push(objTarjeta); //Almacenarlo ojeto
     }
-    console.log(objTarjetas);
+    
     barajarImagenes();
 }
 
@@ -55,8 +57,8 @@ function voltearTarjeta(e) {
     let imgAMostrar = objTarjetas[idTarjeta].estado ? objTarjetas[idTarjeta].dir : dirDorsoTarjeta; 
     //Cuando la tarjeta este boca arriba que no sea clickeable
     let clickeable = objTarjetas[idTarjeta].estado ? 'none' : 'auto'; 
-    e.target.src = imgAMostrar; 
-    e.target.style.pointerEvents = clickeable;
+    arrayTarjetas[idTarjeta].src = imgAMostrar; 
+    arrayTarjetas[idTarjeta].style.pointerEvents = clickeable;
 
     if(tarjetaVolteada === null) {
         tarjetaVolteada = idTarjeta;
@@ -69,9 +71,9 @@ function voltearTarjeta(e) {
         if(objTarjetas[idTarjeta].dir === objTarjetas[tarjetaVolteada].dir) {
             aciertos++;
             console.log('Acertaste');
+            //Filtrar las tarjetasHTML disponibles, dejar solo aquellas que no han sido la acertada 
+            dispTarjetas = dispTarjetas.filter( tarjeta => tarjeta.src != arrayTarjetas[idTarjeta].src);
 
-            //Remover las tarjetas correctas del arreglo
-            //Evitando habilitarlas(clickeables)
             habilitarTarjetas();
         } else {
             console.log('Diferente');
@@ -80,7 +82,7 @@ function voltearTarjeta(e) {
                 arrayTarjetas[tVolteadaTemp].src = dirDorsoTarjeta;
                 objTarjetas[tVolteadaTemp].estado = false;
 
-                e.target.src = dirDorsoTarjeta;
+                arrayTarjetas[idTarjeta].src = dirDorsoTarjeta;
                 objTarjetas[idTarjeta].estado = false;
                 habilitarTarjetas();
             }, 1000);
@@ -96,16 +98,16 @@ function voltearTarjeta(e) {
     });
 }
 
-//Evitar que sean clickeables todas las tarjeta
+//Evitar que sean clickeables las tarjetas aun no correctas
 function inhabilitarTarjetas() {
-    arrayTarjetas.forEach(tarjeta => {
+    dispTarjetas.forEach(tarjeta => {
         tarjeta.style.pointerEvents = 'none';
     });
 }
 
-//Hacer que sean clickeables todas las tarjeta
+//Hacer que sean clickeables las tarjetas aun no correctas
 function habilitarTarjetas() {
-    arrayTarjetas.forEach(tarjeta => {
+    dispTarjetas.forEach(tarjeta => {
         tarjeta.style.pointerEvents = 'auto';
     });
 }
