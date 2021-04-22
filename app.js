@@ -1,9 +1,10 @@
 //Variables
 const tarjetas = document.getElementsByClassName('rounded'); //Obteniendo elementos html IMG
 const arrayTarjetas = [...tarjetas]; //Transformar esos elementos a un array
+
 const dirDorsoTarjeta = './assets/card.png';
 
-let objImagenes = []; //Almacen de objetos img
+let objTarjetas = []; //Almacen de objetos img
 let tarjetaVolteada = null;
 let tVolteadaTemp = null; //Auxiliar para voltear boca abajo tarjeta (util en setTimout)
 let aciertos = 0;
@@ -23,42 +24,25 @@ function listeners() {
 
 //Funciones
 function cargarArregloImg() {
-    imagenes.forEach(imagen => { //Arreglo de imagenes a arreglo de objetos imagenes
+    //Cargar arreglo de objetosTarjetas con el src de cada imagen
+    for (let i = 0; objTarjetas.length < imagenes.length*2; i++) {
         
-        let objImagen = { //Objeto 
+        if(i===imagenes.length) i=0; //Repetir imagenes para el par
+        
+        let objTarjeta = { //Objeto 
             dir: '',
             estado: false,
         }
-
-        objImagen.dir = imagen; //Establecer direccion de la imagen
-        objImagenes.push(objImagen); //Almacenarlo doblemente para tener pares de imgs
-    });
-
-    imagenes.forEach(imagen => { //Arreglo de imagenes a arreglo de objetos imagenes
-        
-        let objImagen = { //Objeto 
-            dir: '',
-            estado: false,
-            acierto: 0
-        }
-
-        objImagen.dir = imagen; //Establecer direccion de la imagen
-        objImagenes.push(objImagen); //Almacenarlo doblemente para tener pares de imgs
-    });
-
+        console.log(i);
+        objTarjeta.dir = imagenes[i]; //Establecer direccion de la imagen
+        objTarjetas.push(objTarjeta); //Almacenarlo ojeto
+    }
+    console.log(objTarjetas);
     barajarImagenes();
-
-    //for (let i = 0; i < arrayTarjetas.length; i++) { //En cada elemento html IMG asignar la direccion de una
-    //    arrayTarjetas[i].src = objImagenes[i].dir;
-    //}
-
-    //for (let i = 0; i < arrayTarjetas.length; i++) { //En cada elemento html IMG asignar la direccion de una
-    //    console.log(objImagenes[i]);
-    //}
 }
 
 function barajarImagenes() {
-    objImagenes.sort(() => {
+    objTarjetas.sort(() => {
         return Math.random() - 0.5;
     });
 }
@@ -66,11 +50,11 @@ function barajarImagenes() {
 function voltearTarjeta(e) {
     const idTarjeta = e.target.id - 1; //Obtener id del html IMG
 
-    objImagenes[idTarjeta].estado = !objImagenes[idTarjeta].estado; //Invertir su estado (volteado)
+    objTarjetas[idTarjeta].estado = !objTarjetas[idTarjeta].estado; //Invertir su estado (volteado)
     //De acuerdo a su estado asignar una imagen
-    let imgAMostrar = objImagenes[idTarjeta].estado ? objImagenes[idTarjeta].dir : dirDorsoTarjeta; 
+    let imgAMostrar = objTarjetas[idTarjeta].estado ? objTarjetas[idTarjeta].dir : dirDorsoTarjeta; 
     //Cuando la tarjeta este boca arriba que no sea clickeable
-    let clickeable = objImagenes[idTarjeta].estado ? 'none' : 'auto'; 
+    let clickeable = objTarjetas[idTarjeta].estado ? 'none' : 'auto'; 
     e.target.src = imgAMostrar; 
     e.target.style.pointerEvents = clickeable;
 
@@ -82,32 +66,29 @@ function voltearTarjeta(e) {
         intentos++;
         //No dejar que se presionen mas tarjetas cuando ya hay dos levantadas
         inhabilitarTarjetas(); 
-        if(e.target.src === arrayTarjetas[tarjetaVolteada].src) {
+        if(objTarjetas[idTarjeta].dir === objTarjetas[tarjetaVolteada].dir) {
             aciertos++;
             console.log('Acertaste');
 
             //Remover las tarjetas correctas del arreglo
             //Evitando habilitarlas(clickeables)
-            arrayTarjetas.splice(idTarjeta);
-            arrayTarjetas.splice(tarjetaVolteada);
-
             habilitarTarjetas();
         } else {
             console.log('Diferente');
             //Dejar ver un segundo ambas tarjetas diferentes levantadas
             setTimeout(() => {
                 arrayTarjetas[tVolteadaTemp].src = dirDorsoTarjeta;
-                objImagenes[tVolteadaTemp].estado = false;
+                objTarjetas[tVolteadaTemp].estado = false;
 
                 e.target.src = dirDorsoTarjeta;
-                objImagenes[idTarjeta].estado = false;
+                objTarjetas[idTarjeta].estado = false;
                 habilitarTarjetas();
             }, 1000);
         }
         tarjetaVolteada = null;
     }
 
-    setTimeout(() => {
+    setTimeout(() => { //Necesario para que aparezca despues de voltear tarjeta
         if(aciertos === 8) {
             inhabilitarTarjetas();
             confirm('¡Felicidades has ganado despues de ' + intentos + ' intentos!');
