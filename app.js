@@ -1,6 +1,7 @@
 //Variables
 const tarjetas = document.getElementsByClassName('rounded'); //Obteniendo elementos html IMG
 const arrayTarjetas = [...tarjetas]; //Transformar esos elementos a un array
+const btnReiniciar = document.querySelector('#btnReiniciar');
 
 const dirDorsoTarjeta = './assets/card.png';
 
@@ -22,6 +23,10 @@ function listeners() {
     arrayTarjetas.forEach(tarjeta => {
         tarjeta.addEventListener('click', voltearTarjeta);
     });
+
+    btnReiniciar.addEventListener('click', ()=> {
+        location.reload();
+    });
 }
 
 //Funciones
@@ -37,7 +42,7 @@ function cargarArregloImg() {
         }
         
         objTarjeta.dir = imagenes[i]; //Establecer direccion de la imagen
-        objTarjetas.push(objTarjeta); //Almacenarlo ojeto
+        objTarjetas.push(objTarjeta); //Almacenarlo objeto
     }
     
     barajarImagenes();
@@ -70,13 +75,11 @@ function voltearTarjeta(e) {
         inhabilitarTarjetas(); 
         if(objTarjetas[idTarjeta].dir === objTarjetas[tarjetaVolteada].dir) {
             aciertos++;
-            console.log('Acertaste');
             //Filtrar las tarjetasHTML disponibles, dejar solo aquellas que no han sido la acertada 
             dispTarjetas = dispTarjetas.filter( tarjeta => tarjeta.src != arrayTarjetas[idTarjeta].src);
 
             habilitarTarjetas();
         } else {
-            console.log('Diferente');
             //Dejar ver un segundo ambas tarjetas diferentes levantadas
             setTimeout(() => {
                 arrayTarjetas[tVolteadaTemp].src = dirDorsoTarjeta;

@@ -26,6 +26,7 @@ h1 {
 }
 
 .fila {
+    justify-content: center;
     display: flex;
     flex-wrap: wrap;
 }
