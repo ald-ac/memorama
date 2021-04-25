@@ -78,6 +78,9 @@ function voltearTarjeta(e) {
             //Filtrar las tarjetasHTML disponibles, dejar solo aquellas que no han sido la acertada 
             dispTarjetas = dispTarjetas.filter( tarjeta => tarjeta.src != arrayTarjetas[idTarjeta].src);
 
+            //Bajar opacidad correctas
+            arrayTarjetas[idTarjeta].style.opacity = '0.5';
+            arrayTarjetas[tarjetaVolteada].style.opacity = '0.5';
             habilitarTarjetas();
         } else {
             //Dejar ver un segundo ambas tarjetas diferentes levantadas
