@@ -1,9 +1,9 @@
 //Variables
-const tarjetas = document.getElementsByClassName('rounded'); //Obteniendo elementos html IMG
+const tarjetas = document.getElementsByClassName('tarjeta'); //Obteniendo elementos html IMG
 const arrayTarjetas = [...tarjetas]; //Transformar esos elementos a un array
 const btnReiniciar = document.querySelector('#btnReiniciar');
 
-const dirDorsoTarjeta = './assets/card.png';
+const dirDorsoTarjeta = './assets/card.png'; //Imagen del dorso de la carta
 
 let objTarjetas = []; //Almacen de objetos img
 let tarjetaVolteada = null;
